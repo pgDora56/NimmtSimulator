@@ -9,7 +9,7 @@
 1. Make your own intelligence by editing `simple.py`.
 2. Set using players by editing `main.py`.
 ```
-# main.py:line 146-153
+# main.py:line 137-145
 if __name__ == "__main__":
     players = [ # Set using players list
                 BiggerPlayer(),
