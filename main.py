@@ -1,19 +1,16 @@
 import random
 
+from player import *
+from simple import *
+
 class Board:
     rows = []
     players = []
-    def __init__(self):
-        self.players.append(BiggerPlayer())
-        self.players.append(BiggerPlayer())
-        self.players.append(BiggerPlayer())
-        self.players.append(SmallerPlayer())
-        self.players.append(SmallerPlayer())
-        self.players.append(SmallerPlayer())
+    def __init__(self, _players):
+        self.players = _players
         if not (2 <= len(self.players) <= 10):
             print("Player number is invalid.")
             exit()
-        random.shuffle(self.players)
         for i in range(len(self.players)):
             print(f"{i+1}:{self.players[i].name}")
         input()
@@ -144,70 +141,13 @@ class Board:
 # 以下は各プレイヤーの親クラス＆作成例
 #
 
-class Player: # 親クラス
-    cards = []
-    hp = 66
-    def choose(self, rows, damages, hps):
-        # 各ターンにどのカードを捨てるか
-        pass
-
-    def less(self, rows, damages, play_cards):
-        # 最小値より小さかった場合にどの列を取るか(0~3で指定)
-        pass
-
-
-# 以下作成例
-
-class SmallerPlayer(Player):
-    # いちばん小さいカードを出し続ける、全部取るときだけちょっと考えて一番安いのを取る
-    name = "SMALLER"
-    def choose(self, rows, damages, hps):
-        return min(self.cards)
-
-    def less(self, rows, damages, play_cards):
-        idx = 0
-        dmg = damages[0]
-        for i in range(1,4):
-            if dmg > damages[i]:
-                idx = i
-                dmg = damages[i]
-        return i
-
-
-class BiggerPlayer(Player):
-    # いちばんでかいカードを出し続ける、全部取るときだけちょっと考える
-    name = "BIGGER"
-    def choose(self, rows, damages, hps):
-        return max(self.cards)
-
-    def less(self, rows, damages, play_cards):
-        idx = 0
-        dmg = damages[0]
-        for i in range(1,4):
-            if dmg > damages[i]:
-                idx = i
-                dmg = damages[i]
-        return i
-
-
-# このSimplePlayerをひな形にしてください
-class SimplePlayer(Player):
-    name = "SIMPLE" # 自分の名前ないし好きな名前にしてください
-
-    # self.cards -> 自分の手札 <list(int)>
-    # self.hp -> 自分のHP <int>
-    # rows -> 各列のカードが並んだリストのリスト <list(list(int))>
-    # damages -> 各列に現在あるカードの書かれた牛の頭数の合計 <list(int)>
-    # hps -> 各プレイヤーのHPのリスト <list(int)>
-    # play_cards -> (lessのみ)プレイヤーが出したカードの列：リストのリストで１つ目の要素にプレイヤーの番号、２つ目の要素に出した数字が書かれる <list(list(int))>
-
-    def choose(self, rows, damages, hps):
-        return random.choice(self.cards)
-
-    def less(self, rows, damages, play_cards):
-        return random.randrange(4)
-
 
 # 実行
 if __name__ == "__main__":
-    board = Board()
+    players = [
+                BiggerPlayer(),
+                BiggerPlayer(),
+                SmallerPlayer(),
+                SmallerPlayer(),
+            ]
+    board = Board(players)
